@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Platine\Test\Event;
 
-use Platine\Event\Dispatcher;
+use Platine\Dev\PlatineTestCase;
 use Platine\Event\CallableListener;
+use Platine\Event\Dispatcher;
 use Platine\Event\Event;
 use Platine\Event\Exception\DispatcherException;
-use Platine\PlatineTestCase;
 use Platine\Test\Fixture\EventListenerTestClass;
-use Platine\Test\Fixture\EventListenerTestClassEmpty;
 use Platine\Test\Fixture\EventListenerTestClassEventInstanceChanged;
 use Platine\Test\Fixture\EventListenerTestClassStopPropagation;
 use Platine\Test\Fixture\EventSubscriberTestClass;
@@ -218,6 +217,19 @@ class DispatcherTest extends PlatineTestCase
         $this->assertFalse($d->hasListener('not_found_event', $listener1));
     }
 
+    public function testHasListenerForCallable(): void
+    {
+        CallableListener::clear();
+
+        $d = new Dispatcher();
+
+        $listener = 'Platine\\Test\\Fixture\\callable_listener';
+        $d->addListener('foo_event', $listener);
+        $this->assertTrue($d->hasListener('foo_event', $listener));
+        $this->assertFalse($d->hasListener('foo_event', function (Event $e) {
+        }));
+    }
+
     public function testAddListenerUsingCallable(): void
     {
         $listener = 'Platine\\Test\\Fixture\\callable_listener';
@@ -236,16 +248,5 @@ class DispatcherTest extends PlatineTestCase
         $this->assertEquals(1, count($d->getListeners()));
         $d->dispatch('foo_event');
         $this->expectOutputString('foo_event');
-    }
-
-    public function testHasListenerForCallable(): void
-    {
-        CallableListener::clear();
-
-        $d = new Dispatcher();
-
-        $listener = 'Platine\\Test\\Fixture\\callable_listener';
-        $d->addListener('foo_event', $listener);
-        $this->assertTrue($d->hasListener('foo_event', $listener));
     }
 }

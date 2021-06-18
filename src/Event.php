@@ -58,7 +58,7 @@ class Event implements EventInterface
 
     /**
      * The event data
-     * @var array
+     * @var array<string, mixed>
      */
     protected array $arguments = [];
 
@@ -71,7 +71,7 @@ class Event implements EventInterface
     /**
      * Create the new instance of the Event
      * @param string $name       the event name
-     * @param array  $arguments the event data
+     * @param array<string, mixed>  $arguments the event data
      */
     public function __construct(string $name, array $arguments = [])
     {
@@ -102,7 +102,7 @@ class Event implements EventInterface
 
     /**
      * Get all event data or arguments.
-     * @return array
+     * @return array<string, mixed>
      */
     public function getArguments(): array
     {
@@ -112,9 +112,9 @@ class Event implements EventInterface
     /**
      * Set array of arguments.
      *
-     * @param array $arguments
+     * @param array<string, mixed> $arguments
      *
-     * @return self
+     * @return $this
      */
     public function setArguments(array $arguments): self
     {
@@ -125,11 +125,13 @@ class Event implements EventInterface
     /**
      * Get event data for the given key.
      * @param string $key
-     * @return mixed
+     * @return mixed|null
      */
     public function getArgument(string $key)
     {
-        return array_key_exists($key, $this->arguments) ? $this->arguments[$key] : null;
+        return array_key_exists($key, $this->arguments)
+               ? $this->arguments[$key]
+                : null;
     }
 
     /**
@@ -138,7 +140,7 @@ class Event implements EventInterface
      * @param string $key
      * @param mixed $value the event value
      *
-     * @return self
+     * @return $this
      */
     public function setArgument(string $key, $value): self
     {
@@ -160,6 +162,7 @@ class Event implements EventInterface
     public function stopPropagation(): self
     {
         $this->stopPropagation = true;
+
         return $this;
     }
 }

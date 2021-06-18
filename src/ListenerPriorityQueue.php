@@ -46,30 +46,42 @@ declare(strict_types=1);
 
 namespace Platine\Event;
 
-class ListenerPriorityQueue implements \IteratorAggregate
+use IteratorAggregate;
+use SplObjectStorage;
+use SplPriorityQueue;
+
+/**
+ * class ListenerPriorityQueue
+ * @package Platine\Event
+ *
+ * @implements IteratorAggregate<ListenerInterface>
+ */
+class ListenerPriorityQueue implements IteratorAggregate
 {
 
     /**
      * The storage
-     * @var \SplObjectStorage
+     * @var SplObjectStorage<ListenerInterface, int>
      */
-    protected \SplObjectStorage $storage;
+    protected SplObjectStorage $storage;
 
     /**
      * The priority queue
-     * @var \SplPriorityQueue
+     * @var SplPriorityQueue<int, ListenerInterface>
      */
-    protected \SplPriorityQueue $queue;
+    protected SplPriorityQueue $queue;
 
     /**
      * Create the new instance
-     * @param \SplObjectStorage $storage       the event name
-     * @param \SplPriorityQueue  $queue the priority queue
+     * @param SplObjectStorage<ListenerInterface, int>|null $storage       the event name
+     * @param SplPriorityQueue<int, ListenerInterface>|null  $queue the priority queue
      */
-    public function __construct(\SplObjectStorage $storage = null, \SplPriorityQueue $queue = null)
-    {
-        $this->storage = $storage ? $storage : new \SplObjectStorage();
-        $this->queue = $queue ? $queue : new \SplPriorityQueue();
+    public function __construct(
+        ?SplObjectStorage $storage = null,
+        ?SplPriorityQueue $queue = null
+    ) {
+        $this->storage = $storage ?? new SplObjectStorage();
+        $this->queue = $queue ? $queue : new SplPriorityQueue();
     }
 
     /**
@@ -103,8 +115,8 @@ class ListenerPriorityQueue implements \IteratorAggregate
      */
     public function clear(): void
     {
-        $this->storage = new \SplObjectStorage();
-        $this->queue = new \SplPriorityQueue();
+        $this->storage = new SplObjectStorage();
+        $this->queue = new SplPriorityQueue();
     }
 
     /**
@@ -120,7 +132,7 @@ class ListenerPriorityQueue implements \IteratorAggregate
 
     /**
      * Return all listeners
-     * @return array
+     * @return SplPriorityQueue<int, ListenerInterface>[]
      */
     public function all(): array
     {
@@ -128,20 +140,22 @@ class ListenerPriorityQueue implements \IteratorAggregate
         foreach ($this->getIterator() as $listener) {
             $listeners[] = $listener;
         }
+
         return $listeners;
     }
 
     /**
      * Clones and returns a iterator.
      *
-     * @return \SplPriorityQueue
+     * @return SplPriorityQueue<int, ListenerInterface>
      */
-    public function getIterator(): \SplPriorityQueue
+    public function getIterator(): SplPriorityQueue
     {
         $queue = clone $this->queue;
         if (!$queue->isEmpty()) {
             $queue->top();
         }
+
         return $queue;
     }
 
@@ -152,7 +166,7 @@ class ListenerPriorityQueue implements \IteratorAggregate
     protected function refreshQueue(): void
     {
         $this->storage->rewind();
-        $this->queue = new \SplPriorityQueue();
+        $this->queue = new SplPriorityQueue();
         foreach ($this->storage as $listener) {
             $priority = $this->storage->getInfo();
             $this->queue->insert($listener, $priority);

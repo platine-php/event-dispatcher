@@ -57,7 +57,7 @@ interface SubscriberInterface
      *         'event_name2' => 'this method2',
      *      );
      *
-     * @return array
+     * @return array<string, string>
      */
     public function getSubscribedEvents(): array;
 }

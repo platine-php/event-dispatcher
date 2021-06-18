@@ -46,6 +46,8 @@ declare(strict_types=1);
 
 namespace Platine\Event;
 
+use SplPriorityQueue;
+
 interface DispatcherInterface
 {
 
@@ -79,17 +81,21 @@ interface DispatcherInterface
      * Register a listener for the given event.
      *
      * @param string $eventName the name of event
-     * @param ListenerInterface|callable $listener the ListenerInterface or any callable
+     * @param ListenerInterface|callable $listener the Listener interface or any callable
      * @param int $priority the listener execution priority
      */
-    public function addListener(string $eventName, $listener, int $priority = self::PRIORITY_DEFAULT): void;
+    public function addListener(
+        string $eventName,
+        $listener,
+        int $priority = self::PRIORITY_DEFAULT
+    ): void;
 
     /**
      * Register a subscriber.
      *
-     * @param subscriberInterface $subscriber the subscriberInterface instance
+     * @param SubscriberInterface $subscriber the subscriberInterface instance
      */
-    public function addSubscriber(subscriberInterface $subscriber): void;
+    public function addSubscriber(SubscriberInterface $subscriber): void;
 
     /**
      * Remove a listener for the given event.
@@ -102,9 +108,9 @@ interface DispatcherInterface
     /**
      * Remove a subscriber.
      *
-     * @param subscriberInterface $subscriber the subscriberInterface instance
+     * @param SubscriberInterface $subscriber the subscriberInterface instance
      */
-    public function removeSubscriber(subscriberInterface $subscriber): void;
+    public function removeSubscriber(SubscriberInterface $subscriber): void;
 
     /**
      * Remove all listener for the given event.
@@ -127,7 +133,7 @@ interface DispatcherInterface
      * Get all listeners for the given event or all registered listeners.
      *
      * @param string $eventName the name of event
-     * @return array
+     * @return SplPriorityQueue<int, ListenerInterface>[]
      */
     public function getListeners(string $eventName = null): array;
 }

@@ -57,7 +57,7 @@ class CallableListener implements ListenerInterface
 
     /**
      * The listeners
-     * @var array
+     * @var array<$this>
      */
     protected static $listeners = [];
 
@@ -87,7 +87,8 @@ class CallableListener implements ListenerInterface
      */
     public static function fromCallable(callable $callable): self
     {
-        $listener = new static($callable);
+        $listener = new self($callable);
+
         return $listener;
     }
 
@@ -103,6 +104,7 @@ class CallableListener implements ListenerInterface
                 return $listener;
             }
         }
+
         return false;
     }
 

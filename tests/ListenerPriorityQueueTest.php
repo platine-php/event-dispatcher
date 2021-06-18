@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Platine\Test\Event;
 
 use Platine\Event\ListenerPriorityQueue;
-use Platine\PlatineTestCase;
+use Platine\Dev\PlatineTestCase;
 use Platine\Test\Fixture\EventListenerTestClass;
 use Platine\Test\Fixture\EventListenerTestClassEmpty;
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Platine\Test\Event;
 
 use Platine\Event\Event;
-use Platine\PlatineTestCase;
+use Platine\Dev\PlatineTestCase;
 
 /**
  * Event class tests

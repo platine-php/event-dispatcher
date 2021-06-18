@@ -53,7 +53,7 @@ class Dispatcher implements DispatcherInterface
 
     /**
      * The list of listener
-     * @var array
+     * @var array<string, ListenerPriorityQueue>
      */
     protected array $listeners = [];
 
@@ -67,11 +67,13 @@ class Dispatcher implements DispatcherInterface
         } elseif (is_null($event)) {
             $event = new Event($eventName);
         }
+
         if (isset($this->listeners[$event->getName()])) {
             foreach ($this->listeners[$event->getName()] as $listener) {
                 if ($event->isStopPropagation()) {
                     break;
                 }
+
                 ([$listener, 'handle'])($event);
             }
         }
@@ -88,15 +90,18 @@ class Dispatcher implements DispatcherInterface
         if (!isset($this->listeners[$eventName])) {
             $this->listeners[$eventName] = new ListenerPriorityQueue();
         }
+
         if (is_callable($listener)) {
             $listener = CallableListener::fromCallable($listener);
         }
+
         if (!$listener instanceof ListenerInterface) {
             throw new DispatcherException(
                 'The listener should be the implementation of '
                             . 'the ListenerInterface or callable'
             );
         }
+
         $this->listeners[$eventName]->insert($listener, $priority);
     }
 
@@ -118,9 +123,15 @@ class Dispatcher implements DispatcherInterface
         if (empty($this->listeners[$eventName])) {
             return;
         }
-        if (is_callable($listener) && ($listener = CallableListener::getListener($listener)) === false) {
+
+        if (is_callable($listener)) {
+            $listener = CallableListener::getListener($listener);
+        }
+
+        if ($listener === false) {
             return;
         }
+
         $this->listeners[$eventName]->detach($listener);
     }
 
@@ -156,9 +167,15 @@ class Dispatcher implements DispatcherInterface
         if (!isset($this->listeners[$eventName])) {
             return false;
         }
+
         if (is_callable($listener)) {
             $listener = CallableListener::getListener($listener);
         }
+
+        if ($listener === false) {
+            return false;
+        }
+
         return $this->listeners[$eventName]->contains($listener);
     }
 
@@ -168,12 +185,15 @@ class Dispatcher implements DispatcherInterface
     public function getListeners(string $eventName = null): array
     {
         if (!is_null($eventName)) {
-            return isset($this->listeners[$eventName]) ? $this->listeners[$eventName]->all() : [];
+            return isset($this->listeners[$eventName])
+                    ? $this->listeners[$eventName]->all()
+                    : [];
         } else {
             $listeners = [];
             foreach ($this->listeners as $queue) {
                 $listeners = array_merge($listeners, $queue->all());
             }
+
             return $listeners;
         }
     }

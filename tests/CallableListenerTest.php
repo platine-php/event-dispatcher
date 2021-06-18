@@ -7,7 +7,7 @@ namespace Platine\Test\Event;
 use Platine\Event\CallableListener;
 use Platine\Event\ListenerInterface;
 use Platine\Event\Event;
-use Platine\PlatineTestCase;
+use Platine\Dev\PlatineTestCase;
 
 /**
  * CallableListener class tests
