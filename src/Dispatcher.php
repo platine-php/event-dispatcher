@@ -37,7 +37,7 @@
  *  @author Platine Developers Team
  *  @copyright  Copyright (c) 2020
  *  @license    http://opensource.org/licenses/MIT  MIT License
- *  @link   http://www.iacademy.cf
+ *  @link   https://www.platine-php.com
  *  @version 1.0.0
  *  @filesource
  */
@@ -50,7 +50,6 @@ use Platine\Event\Exception\DispatcherException;
 
 class Dispatcher implements DispatcherInterface
 {
-
     /**
      * The list of listener
      * @var array<string, ListenerPriorityQueue>
@@ -60,7 +59,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function dispatch($eventName, EventInterface $event = null): void
+    public function dispatch($eventName, EventInterface $event = null): EventInterface
     {
         if ($eventName instanceof EventInterface) {
             $event = $eventName;
@@ -77,6 +76,8 @@ class Dispatcher implements DispatcherInterface
                 ([$listener, 'handle'])($event);
             }
         }
+
+        return $event;
     }
 
     /**

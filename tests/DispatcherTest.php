@@ -22,7 +22,6 @@ use Platine\Test\Fixture\EventSubscriberTestClass;
  */
 class DispatcherTest extends PlatineTestCase
 {
-
     public function testAddListenerDefault(): void
     {
         $d = new Dispatcher();

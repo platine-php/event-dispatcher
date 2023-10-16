@@ -15,7 +15,6 @@ use Platine\Dev\PlatineTestCase;
  */
 class EventTest extends PlatineTestCase
 {
-
     public function testConstructor(): void
     {
         $e = new Event('foo_event');

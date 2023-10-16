@@ -37,7 +37,7 @@
  *  @author Platine Developers Team
  *  @copyright  Copyright (c) 2020
  *  @license    http://opensource.org/licenses/MIT  MIT License
- *  @link   http://www.iacademy.cf
+ *  @link   https://www.platine-php.com
  *  @version 1.0.0
  *  @filesource
  */
@@ -50,7 +50,6 @@ use SplPriorityQueue;
 
 interface DispatcherInterface
 {
-
     /**
      * The low priority
      * @var int
@@ -73,9 +72,9 @@ interface DispatcherInterface
      * Dispatches an event to all registered listeners.
      * @param  string|EventInterface     $eventName the name of event of instance of EventInterface
      * @param  EventInterface|null $event  the instance of EventInterface or null
-     * @return void
+     * @return EventInterface
      */
-    public function dispatch($eventName, EventInterface $event = null): void;
+    public function dispatch($eventName, EventInterface $event = null): EventInterface;
 
     /**
      * Register a listener for the given event.

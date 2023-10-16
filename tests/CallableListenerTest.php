@@ -17,7 +17,6 @@ use Platine\Dev\PlatineTestCase;
  */
 class CallableListenerTest extends PlatineTestCase
 {
-
     public function testConstructor(): void
     {
         $callable = 'Platine\\Test\\Fixture\\callable_listener';

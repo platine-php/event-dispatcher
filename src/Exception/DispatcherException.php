@@ -34,5 +34,4 @@ namespace Platine\Event\Exception;
 
 class DispatcherException extends \Exception
 {
-
 }

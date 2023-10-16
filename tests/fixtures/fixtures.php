@@ -6,7 +6,6 @@ namespace Platine\Test\Fixture;
 
 class EventListenerTestClass implements \Platine\Event\ListenerInterface
 {
-
     public function handle(\Platine\Event\EventInterface $event)
     {
         echo $event->getName();
@@ -15,7 +14,6 @@ class EventListenerTestClass implements \Platine\Event\ListenerInterface
 
 class EventListenerTestClassEmpty implements \Platine\Event\ListenerInterface
 {
-
     public function handle(\Platine\Event\EventInterface $event)
     {
     }
@@ -23,7 +21,6 @@ class EventListenerTestClassEmpty implements \Platine\Event\ListenerInterface
 
 class EventListenerTestClassEventInstanceChanged implements \Platine\Event\ListenerInterface
 {
-
     public function handle(\Platine\Event\EventInterface $event)
     {
         $event->setArgument('foo', 'bar');
@@ -32,7 +29,6 @@ class EventListenerTestClassEventInstanceChanged implements \Platine\Event\Liste
 
 class EventListenerTestClassStopPropagation implements \Platine\Event\ListenerInterface
 {
-
     public function handle(\Platine\Event\EventInterface $event)
     {
         $event->stopPropagation();
@@ -41,7 +37,6 @@ class EventListenerTestClassStopPropagation implements \Platine\Event\ListenerIn
 
 class EventSubscriberTestClass implements \Platine\Event\SubscriberInterface
 {
-
     public function getSubscribedEvents(): array
     {
         return array(

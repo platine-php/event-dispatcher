@@ -17,7 +17,6 @@ use Platine\Test\Fixture\EventListenerTestClassEmpty;
  */
 class ListenerPriorityQueueTest extends PlatineTestCase
 {
-
     public function testConstructor(): void
     {
         //Default values
