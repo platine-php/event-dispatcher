@@ -46,6 +46,10 @@ declare(strict_types=1);
 
 namespace Platine\Event;
 
+/**
+ * @class EventInterface
+ * @package Platine\Event
+ */
 interface EventInterface
 {
     /**
@@ -63,7 +67,7 @@ interface EventInterface
     /**
      * Stop event propagation.
      *
-     * @return self
+     * @return $this
      */
     public function stopPropagation(): self;
 }

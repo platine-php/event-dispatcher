@@ -4,38 +4,46 @@ declare(strict_types=1);
 
 namespace Platine\Test\Fixture;
 
-class EventListenerTestClass implements \Platine\Event\ListenerInterface
+use Platine\Event\EventInterface;
+use Platine\Event\Listener\ListenerInterface;
+use Platine\Event\SubscriberInterface;
+
+class EventListenerTestClass implements ListenerInterface
 {
-    public function handle(\Platine\Event\EventInterface $event)
+    public function handle(EventInterface $event): mixed
     {
         echo $event->getName();
+        return true;
     }
 }
 
-class EventListenerTestClassEmpty implements \Platine\Event\ListenerInterface
+class EventListenerTestClassEmpty implements ListenerInterface
 {
-    public function handle(\Platine\Event\EventInterface $event)
+    public function handle(EventInterface $event): mixed
     {
+        return true;
     }
 }
 
-class EventListenerTestClassEventInstanceChanged implements \Platine\Event\ListenerInterface
+class EventListenerTestClassEventInstanceChanged implements ListenerInterface
 {
-    public function handle(\Platine\Event\EventInterface $event)
+    public function handle(EventInterface $event): mixed
     {
         $event->setArgument('foo', 'bar');
+        return true;
     }
 }
 
-class EventListenerTestClassStopPropagation implements \Platine\Event\ListenerInterface
+class EventListenerTestClassStopPropagation implements ListenerInterface
 {
-    public function handle(\Platine\Event\EventInterface $event)
+    public function handle(EventInterface $event): mixed
     {
         $event->stopPropagation();
+        return true;
     }
 }
 
-class EventSubscriberTestClass implements \Platine\Event\SubscriberInterface
+class EventSubscriberTestClass implements SubscriberInterface
 {
     public function getSubscribedEvents(): array
     {
@@ -45,17 +53,17 @@ class EventSubscriberTestClass implements \Platine\Event\SubscriberInterface
         );
     }
 
-    public function onFooEvent(\Platine\Event\EventInterface $event)
+    public function onFooEvent(EventInterface $event)
     {
     }
 
-    public function onBarEvent(\Platine\Event\EventInterface $event)
+    public function onBarEvent(EventInterface $event)
     {
     }
 }
 
 
-function callable_listener(\Platine\Event\EventInterface $event)
+function callable_listener(EventInterface $event)
 {
     echo $event->getName();
 }

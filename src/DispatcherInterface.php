@@ -46,8 +46,13 @@ declare(strict_types=1);
 
 namespace Platine\Event;
 
+use Platine\Event\Listener\ListenerInterface;
 use SplPriorityQueue;
 
+/**
+ * @class DispatcherInterface
+ * @package Platine\Event
+ */
 interface DispatcherInterface
 {
     /**
@@ -70,11 +75,14 @@ interface DispatcherInterface
 
     /**
      * Dispatches an event to all registered listeners.
-     * @param  string|EventInterface     $eventName the name of event of instance of EventInterface
+     * @param  string|EventInterface  $eventName the name of event of instance of EventInterface
      * @param  EventInterface|null $event  the instance of EventInterface or null
      * @return EventInterface
      */
-    public function dispatch($eventName, EventInterface $event = null): EventInterface;
+    public function dispatch(
+        string|EventInterface $eventName,
+        ?EventInterface $event = null
+    ): EventInterface;
 
     /**
      * Register a listener for the given event.
@@ -82,10 +90,12 @@ interface DispatcherInterface
      * @param string $eventName the name of event
      * @param ListenerInterface|callable $listener the Listener interface or any callable
      * @param int $priority the listener execution priority
+     *
+     * @return void
      */
     public function addListener(
         string $eventName,
-        $listener,
+        ListenerInterface|callable $listener,
         int $priority = self::PRIORITY_DEFAULT
     ): void;
 
@@ -101,22 +111,29 @@ interface DispatcherInterface
      *
      * @param string $eventName the name of event
      * @param ListenerInterface|callable $listener the ListenerInterface or any callable
+     *
+     * @return void
      */
-    public function removeListener(string $eventName, $listener): void;
+    public function removeListener(
+        string $eventName,
+        ListenerInterface|callable $listener
+    ): void;
 
     /**
      * Remove a subscriber.
      *
      * @param SubscriberInterface $subscriber the subscriberInterface instance
+     * @return void
      */
     public function removeSubscriber(SubscriberInterface $subscriber): void;
 
     /**
      * Remove all listener for the given event.
      *
-     * @param string $eventName the name of event
+     * @param string|null $eventName the name of event
+     * @return void
      */
-    public function removeAllListener(string $eventName = null): void;
+    public function removeAllListener(?string $eventName = null): void;
 
     /**
      * Check whether the listener exists for the given event.
@@ -126,13 +143,13 @@ interface DispatcherInterface
      *
      * @return bool
      */
-    public function hasListener(string $eventName, $listener): bool;
+    public function hasListener(string $eventName, ListenerInterface|callable $listener): bool;
 
     /**
      * Get all listeners for the given event or all registered listeners.
      *
-     * @param string $eventName the name of event
+     * @param string|null $eventName the name of event
      * @return SplPriorityQueue<int, ListenerInterface>[]
      */
-    public function getListeners(string $eventName = null): array;
+    public function getListeners(?string $eventName = null): array;
 }

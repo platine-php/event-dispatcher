@@ -47,20 +47,12 @@ declare(strict_types=1);
 
 namespace Platine\Event;
 
+/**
+ * @class Event
+ * @package Platine\Event
+ */
 class Event implements EventInterface
 {
-    /**
-     * The event name
-     * @var string
-     */
-    protected string $name;
-
-    /**
-     * The event data
-     * @var array<string, mixed>
-     */
-    protected array $arguments = [];
-
     /**
      * Whether the propagation is stopped.
      * @var boolean
@@ -69,13 +61,11 @@ class Event implements EventInterface
 
     /**
      * Create the new instance of the Event
-     * @param string $name       the event name
+     * @param string $name the event name
      * @param array<string, mixed>  $arguments the event data
      */
-    public function __construct(string $name, array $arguments = [])
+    public function __construct(protected string $name, protected array $arguments = [])
     {
-        $this->name = $name;
-        $this->arguments = $arguments;
     }
 
     /**
@@ -91,7 +81,7 @@ class Event implements EventInterface
      *
      * @param string $name the new event name
      *
-     * @return self
+     * @return $this
      */
     public function setName(string $name): self
     {
@@ -124,9 +114,9 @@ class Event implements EventInterface
     /**
      * Get event data for the given key.
      * @param string $key
-     * @return mixed|null
+     * @return mixed
      */
-    public function getArgument(string $key)
+    public function getArgument(string $key): mixed
     {
         return array_key_exists($key, $this->arguments)
                ? $this->arguments[$key]
@@ -141,7 +131,7 @@ class Event implements EventInterface
      *
      * @return $this
      */
-    public function setArgument(string $key, $value): self
+    public function setArgument(string $key, mixed $value): self
     {
         $this->arguments[$key] = $value;
         return $this;

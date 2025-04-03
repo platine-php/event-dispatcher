@@ -44,8 +44,14 @@
 
 declare(strict_types=1);
 
-namespace Platine\Event;
+namespace Platine\Event\Listener;
 
+use Platine\Event\EventInterface;
+
+/**
+ * @class ListenerInterface
+ * @package Platine\Event\Listener
+ */
 interface ListenerInterface
 {
     /**
@@ -53,5 +59,5 @@ interface ListenerInterface
      * @param  EventInterface  $event the event instance
      * @return mixed
      */
-    public function handle(EventInterface $event);
+    public function handle(EventInterface $event): mixed;
 }

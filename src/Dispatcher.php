@@ -46,8 +46,14 @@ declare(strict_types=1);
 
 namespace Platine\Event;
 
-use Platine\Event\Exception\DispatcherException;
+use Platine\Event\Listener\CallableListener;
+use Platine\Event\Listener\ListenerInterface;
+use Platine\Event\Listener\ListenerPriorityQueue;
 
+/**
+ * @class Dispatcher
+ * @package Platine\Event
+ */
 class Dispatcher implements DispatcherInterface
 {
     /**
@@ -59,8 +65,10 @@ class Dispatcher implements DispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function dispatch($eventName, EventInterface $event = null): EventInterface
-    {
+    public function dispatch(
+        string|EventInterface $eventName,
+        ?EventInterface $event = null
+    ): EventInterface {
         if ($eventName instanceof EventInterface) {
             $event = $eventName;
         } elseif (is_null($event)) {
@@ -85,7 +93,7 @@ class Dispatcher implements DispatcherInterface
      */
     public function addListener(
         string $eventName,
-        $listener,
+        ListenerInterface|callable $listener,
         int $priority = self::PRIORITY_DEFAULT
     ): void {
         if (!isset($this->listeners[$eventName])) {
@@ -94,13 +102,6 @@ class Dispatcher implements DispatcherInterface
 
         if (is_callable($listener)) {
             $listener = CallableListener::fromCallable($listener);
-        }
-
-        if (!$listener instanceof ListenerInterface) {
-            throw new DispatcherException(
-                'The listener should be the implementation of '
-                            . 'the ListenerInterface or callable'
-            );
         }
 
         $this->listeners[$eventName]->insert($listener, $priority);
@@ -119,7 +120,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function removeListener(string $eventName, $listener): void
+    public function removeListener(string $eventName, ListenerInterface|callable $listener): void
     {
         if (empty($this->listeners[$eventName])) {
             return;
@@ -149,7 +150,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function removeAllListener(string $eventName = null): void
+    public function removeAllListener(?string $eventName = null): void
     {
         if (!is_null($eventName) && isset($this->listeners[$eventName])) {
             $this->listeners[$eventName]->clear();
@@ -163,7 +164,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function hasListener(string $eventName, $listener): bool
+    public function hasListener(string $eventName, ListenerInterface|callable $listener): bool
     {
         if (!isset($this->listeners[$eventName])) {
             return false;
@@ -183,7 +184,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function getListeners(string $eventName = null): array
+    public function getListeners(?string $eventName = null): array
     {
         if (!is_null($eventName)) {
             return isset($this->listeners[$eventName])

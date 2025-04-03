@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Platine\Test\Event;
 
-use Platine\Event\CallableListener;
-use Platine\Event\ListenerInterface;
-use Platine\Event\Event;
 use Platine\Dev\PlatineTestCase;
+use Platine\Event\Event;
+use Platine\Event\Listener\CallableListener;
+use Platine\Event\Listener\ListenerInterface;
 
 /**
  * CallableListener class tests

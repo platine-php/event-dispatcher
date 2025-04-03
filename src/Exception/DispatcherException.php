@@ -32,6 +32,12 @@ declare(strict_types=1);
 
 namespace Platine\Event\Exception;
 
-class DispatcherException extends \Exception
+use Exception;
+
+/**
+ * @class DispatcherException
+ * @package Platine\Event\Exception
+ */
+class DispatcherException extends Exception
 {
 }

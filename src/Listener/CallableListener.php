@@ -44,8 +44,14 @@
 
 declare(strict_types=1);
 
-namespace Platine\Event;
+namespace Platine\Event\Listener;
 
+use Platine\Event\EventInterface;
+
+/**
+ * @class CallableListener
+ * @package Platine\Event\Listener
+ */
 class CallableListener implements ListenerInterface
 {
     /**
@@ -82,7 +88,7 @@ class CallableListener implements ListenerInterface
     /**
      * Create new instance using the given callable
      * @param  callable $callable the callable
-     * @return CallableListener the new instance
+     * @return self the new instance
      */
     public static function fromCallable(callable $callable): self
     {
@@ -94,9 +100,9 @@ class CallableListener implements ListenerInterface
     /**
      * Search the listener for given callable
      * @param  callable $callable the callable
-     * @return CallableListener|false
+     * @return $this|false
      */
-    public static function getListener(callable $callable)
+    public static function getListener(callable $callable): self|false
     {
         foreach (static::$listeners as $listener) {
             if ($listener->getCallable() == $callable) {
@@ -119,10 +125,12 @@ class CallableListener implements ListenerInterface
     /**
      * {@inheritdoc}
      *
-     * @return void
+     * @return mixed
      */
-    public function handle(EventInterface $event)
+    public function handle(EventInterface $event): mixed
     {
         ($this->callable)($event);
+
+        return true;
     }
 }

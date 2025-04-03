@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Platine\Test\Event;
 
-use Platine\Event\ListenerPriorityQueue;
 use Platine\Dev\PlatineTestCase;
+use Platine\Event\Listener\ListenerPriorityQueue;
 use Platine\Test\Fixture\EventListenerTestClass;
 use Platine\Test\Fixture\EventListenerTestClassEmpty;
+use SplObjectStorage;
+use SplPriorityQueue;
 
 /**
  * ListenerPriorityQueue class tests
@@ -24,17 +26,17 @@ class ListenerPriorityQueueTest extends PlatineTestCase
         $preflection1 = $this->getPrivateProtectedAttribute(ListenerPriorityQueue::class, 'storage');
         $preflection2 = $this->getPrivateProtectedAttribute(ListenerPriorityQueue::class, 'queue');
         $this->assertInstanceOf(ListenerPriorityQueue::class, $lpq);
-        $this->assertInstanceOf(\SplObjectStorage::class, $preflection1->getValue($lpq));
-        $this->assertInstanceOf(\SplPriorityQueue::class, $preflection2->getValue($lpq));
+        $this->assertInstanceOf(SplObjectStorage::class, $preflection1->getValue($lpq));
+        $this->assertInstanceOf(SplPriorityQueue::class, $preflection2->getValue($lpq));
 
         //Using custom instances
-        $storage = $this->getMockBuilder(\SplObjectStorage::class)->getMock();
-        $queue = $this->getMockBuilder(\SplPriorityQueue::class)->getMock();
+        $storage = $this->getMockBuilder(SplObjectStorage::class)->getMock();
+        $queue = $this->getMockBuilder(SplPriorityQueue::class)->getMock();
         $lpq = new ListenerPriorityQueue($storage, $queue);
         $preflection1 = $this->getPrivateProtectedAttribute(ListenerPriorityQueue::class, 'storage');
         $preflection2 = $this->getPrivateProtectedAttribute(ListenerPriorityQueue::class, 'queue');
-        $this->assertInstanceOf(\SplObjectStorage::class, $preflection1->getValue($lpq));
-        $this->assertInstanceOf(\SplPriorityQueue::class, $preflection2->getValue($lpq));
+        $this->assertInstanceOf(SplObjectStorage::class, $preflection1->getValue($lpq));
+        $this->assertInstanceOf(SplPriorityQueue::class, $preflection2->getValue($lpq));
         $this->assertEquals(0, $preflection1->getValue($lpq)->count());
         $this->assertEquals(0, $preflection2->getValue($lpq)->count());
         $this->assertEquals($storage, $preflection1->getValue($lpq));

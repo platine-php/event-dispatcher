@@ -44,15 +44,15 @@
 
 declare(strict_types=1);
 
-namespace Platine\Event;
+namespace Platine\Event\Listener;
 
 use IteratorAggregate;
 use SplObjectStorage;
 use SplPriorityQueue;
 
 /**
- * class ListenerPriorityQueue
- * @package Platine\Event
+ * @class ListenerPriorityQueue
+ * @package Platine\Event\Listener
  *
  * @implements IteratorAggregate<ListenerInterface>
  */
@@ -72,7 +72,7 @@ class ListenerPriorityQueue implements IteratorAggregate
 
     /**
      * Create the new instance
-     * @param SplObjectStorage<ListenerInterface, int>|null $storage       the event name
+     * @param SplObjectStorage<ListenerInterface, int>|null $storage  the storage to use
      * @param SplPriorityQueue<int, ListenerInterface>|null  $queue the priority queue
      */
     public function __construct(
@@ -80,7 +80,7 @@ class ListenerPriorityQueue implements IteratorAggregate
         ?SplPriorityQueue $queue = null
     ) {
         $this->storage = $storage ?? new SplObjectStorage();
-        $this->queue = $queue ? $queue : new SplPriorityQueue();
+        $this->queue = $queue ?? new SplPriorityQueue();
     }
 
     /**
@@ -88,6 +88,8 @@ class ListenerPriorityQueue implements IteratorAggregate
      *
      * @param ListenerInterface $listener
      * @param int $priority
+     *
+     * @return void
      */
     public function insert(ListenerInterface $listener, int $priority): void
     {
@@ -99,6 +101,8 @@ class ListenerPriorityQueue implements IteratorAggregate
      * Remove an listener from the queue.
      *
      * @param ListenerInterface $listener
+     *
+     * @return void
      */
     public function detach(ListenerInterface $listener): void
     {

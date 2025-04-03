@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace Platine\Test\Event;
 
 use Platine\Dev\PlatineTestCase;
-use Platine\Event\CallableListener;
 use Platine\Event\Dispatcher;
 use Platine\Event\Event;
 use Platine\Event\Exception\DispatcherException;
+use Platine\Event\Listener\CallableListener;
 use Platine\Test\Fixture\EventListenerTestClass;
 use Platine\Test\Fixture\EventListenerTestClassEventInstanceChanged;
 use Platine\Test\Fixture\EventListenerTestClassStopPropagation;
 use Platine\Test\Fixture\EventSubscriberTestClass;
+
+use function count;
 
 /**
  * Dispatcher class tests
@@ -29,14 +31,6 @@ class DispatcherTest extends PlatineTestCase
         $this->assertEquals(0, count($d->getListeners()));
         $d->addListener('foo_event', $listener);
         $this->assertEquals(1, count($d->getListeners()));
-    }
-
-    public function testAddListenerInvalidListener(): void
-    {
-        $this->expectException(DispatcherException::class);
-        $d = new Dispatcher();
-        $this->assertEquals(0, count($d->getListeners()));
-        $d->addListener('foo_event', 'invalid_listener');
     }
 
     public function testDispatchParamIsEventInstance(): void

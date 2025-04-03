@@ -46,6 +46,10 @@ declare(strict_types=1);
 
 namespace Platine\Event;
 
+/**
+ * @class SubscriberInterface
+ * @package Platine\Event
+ */
 interface SubscriberInterface
 {
     /**
