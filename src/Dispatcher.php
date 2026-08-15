@@ -59,7 +59,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function dispatch($eventName, EventInterface $event = null): EventInterface
+    public function dispatch($eventName, ?EventInterface $event = null): EventInterface
     {
         if ($eventName instanceof EventInterface) {
             $event = $eventName;
@@ -149,7 +149,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function removeAllListener(string $eventName = null): void
+    public function removeAllListener(?string $eventName = null): void
     {
         if (!is_null($eventName) && isset($this->listeners[$eventName])) {
             $this->listeners[$eventName]->clear();
@@ -183,7 +183,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function getListeners(string $eventName = null): array
+    public function getListeners(?string $eventName = null): array
     {
         if (!is_null($eventName)) {
             return isset($this->listeners[$eventName])

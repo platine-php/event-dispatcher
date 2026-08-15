@@ -74,7 +74,7 @@ interface DispatcherInterface
      * @param  EventInterface|null $event  the instance of EventInterface or null
      * @return EventInterface
      */
-    public function dispatch($eventName, EventInterface $event = null): EventInterface;
+    public function dispatch($eventName, ?EventInterface $event = null): EventInterface;
 
     /**
      * Register a listener for the given event.
@@ -114,9 +114,9 @@ interface DispatcherInterface
     /**
      * Remove all listener for the given event.
      *
-     * @param string $eventName the name of event
+     * @param string|null $eventName the name of event
      */
-    public function removeAllListener(string $eventName = null): void;
+    public function removeAllListener(?string $eventName = null): void;
 
     /**
      * Check whether the listener exists for the given event.
@@ -131,8 +131,8 @@ interface DispatcherInterface
     /**
      * Get all listeners for the given event or all registered listeners.
      *
-     * @param string $eventName the name of event
+     * @param string|null $eventName the name of event
      * @return SplPriorityQueue<int, ListenerInterface>[]
      */
-    public function getListeners(string $eventName = null): array;
+    public function getListeners(?string $eventName = null): array;
 }
