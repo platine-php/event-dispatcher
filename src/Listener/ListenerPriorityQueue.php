@@ -106,7 +106,7 @@ class ListenerPriorityQueue implements IteratorAggregate
      */
     public function detach(ListenerInterface $listener): void
     {
-        if ($this->storage->contains($listener)) {
+        if ($this->storage->offsetExists($listener)) {
             $this->storage->detach($listener);
             $this->refreshQueue();
         }
@@ -130,7 +130,7 @@ class ListenerPriorityQueue implements IteratorAggregate
      */
     public function contains(ListenerInterface $listener): bool
     {
-        return $this->storage->contains($listener);
+        return $this->storage->offsetExists($listener);
     }
 
     /**
