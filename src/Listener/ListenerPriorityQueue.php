@@ -93,7 +93,7 @@ class ListenerPriorityQueue implements IteratorAggregate
      */
     public function insert(ListenerInterface $listener, int $priority): void
     {
-        $this->storage->attach($listener, $priority);
+        $this->storage->offsetSet($listener, $priority);
         $this->queue->insert($listener, $priority);
     }
 
