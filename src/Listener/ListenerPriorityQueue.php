@@ -107,7 +107,7 @@ class ListenerPriorityQueue implements IteratorAggregate
     public function detach(ListenerInterface $listener): void
     {
         if ($this->storage->offsetExists($listener)) {
-            $this->storage->detach($listener);
+            $this->storage->offsetUnset($listener);
             $this->refreshQueue();
         }
     }
